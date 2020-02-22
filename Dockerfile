@@ -1,11 +1,16 @@
-FROM balenalib/armv7hf-debian:sid-build
+FROM balenalib/armv7hf-debian:sid-build as build
 MAINTAINER Stefan Kastenholz <stefan.kastenholz@gmail.com>
 
 RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
 RUN wget --no-check-certificate -qO - 'https://github.com/50ButtonsEach/fliclib-linux-hci/archive/2.0.1.tar.gz' | tar xvz
 RUN cd fliclib-linux-hci-* && mv bin/armv6l/flicd /usr/local/bin/flicd && cd .. && rm -r fliclib-linux-hci-*
 
+
+FROM balenalib/armv7hf-debian:sid-run
+
 VOLUME /var/local/flicd/data
+
+COPY --from=build /usr/local/bin/flicd /usr/local/bin/flicd
 
 EXPOSE 5551
 
