@@ -1,4 +1,4 @@
-FROM resin/rpi-raspbian:stretch
+FROM balenalib/armv7hf-debian:sid-build
 MAINTAINER Stefan Kastenholz <stefan.kastenholz@gmail.com>
 
 RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
